@@ -61,6 +61,26 @@ class RestaurantSchema(ma.SQLAlchemyAutoSchema):
 class PizzaSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Pizza
+
+# Data initialization function
+def initialize_data():
+    with app.app_context():
+        # Check if the data already exists
+        if not Restaurant.query.first():
+            # Create sample data for testing
+            restaurant1 = Restaurant(name='Restaurant 1', address='Address 1')
+            restaurant2 = Restaurant(name='Restaurant 2', address='Address 2')
+            db.session.add(restaurant1)
+            db.session.add(restaurant2)
+        
+        if not Pizza.query.first():
+            # Create sample pizza data for testing
+            pizza1 = Pizza(name='Pizza 1', ingredients='Ingredient 1')
+            pizza2 = Pizza(name='Pizza 2', ingredients='Ingredient 2')
+            db.session.add(pizza1)
+            db.session.add(pizza2)
+        
+        db.session.commit()
 # ----------------------------------------------
 
 # apis part
@@ -118,10 +138,11 @@ class GetRestaurants(Resource):
         get all listed restaurants
         
         """
+        
         restaurants = Restaurant.query.all()
         restaurant_schema = RestaurantSchema(many=True)
         response = restaurant_schema.dump(restaurants)
-        return jsonify(response), 200
+        return jsonify(response)
 
 @restaurantnamespace.route("/restaurant/<int:id>/")
 class GetRestaurantOrDelete(Resource):
@@ -149,5 +170,5 @@ class GetRestaurantOrDelete(Resource):
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+        initialize_data()
     app.run(debug=True)
