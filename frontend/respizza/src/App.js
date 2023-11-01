@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import SearchBar from "./components/SearchBar";
 import Restaurant from "./components/restaurantpage/Restaurant";
 import Pizza from "./components/pizzapage/Pizza";
+import AddResPizza from "./components/ResPizzaPage/AddResPizza";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Restaurant/>} />
         <Route path="/restaurants" element={<Restaurant/>} />
         <Route path="/pizza" element={<Pizza/>} />
+        <Route path="/addrestaurantpizza" element={<AddResPizza/>} />
       </Routes>
     </div>
   );
